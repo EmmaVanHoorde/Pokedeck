@@ -3,7 +3,6 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
-
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import java.awt.Dimension;
@@ -11,12 +10,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Collections;
 
 
 public class Main {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
         List<Card> cardList;
         cardList = new ArrayList<Card>();
@@ -24,37 +23,55 @@ public class Main {
         cardList.add(new Card("Goupix","feu"));
         cardList.add(new Card("Pikachu","électrique"));
 
-        JFrame window = new JFrame("Pokedeck - Remove card");
+        JFrame window = new JFrame("Pokedeck");
         window.setSize (800, 500);
         window.setLocationRelativeTo(null);
         window.getContentPane().setBackground(Color.lightGray);
 
         JComboBox combo = new JComboBox();
-        JLabel label = new JLabel("Choisir un Pokemon");
+        JLabel label = new JLabel("Choisir un Pokemon:");
         combo.setPreferredSize(new Dimension(100, 20));
 
         for(int i = 0; i < cardList.size(); i++) {
             combo.addItem(cardList.get(i).getName());
         }
 
-        JPanel  pannel = new JPanel(new FlowLayout ());
         JButton exit = new JButton("Quitter");
-        JButton ok = new JButton("Supprimer");
-        pannel.add(exit);
-        pannel.add(label);
-        pannel.add(combo);
-        pannel.add(ok);
+        JButton remove = new JButton("Supprimer");
+
+
+        JLabel labelAdd = new JLabel("Ajouter un Pokemon:");
+        JTextField textField = new JTextField();
+        textField.setPreferredSize(new Dimension(100, 20));
+        JComboBox comboCardType = new JComboBox();
+        comboCardType.setPreferredSize(new Dimension(100, 20));
+        comboCardType.addItem("feu");
+        comboCardType.addItem("eau");
+        comboCardType.addItem("électrique");
+        comboCardType.addItem("plante");
+        comboCardType.addItem("sol");
+        comboCardType.addItem("vol");
+        comboCardType.addItem("insecte");
+        comboCardType.addItem("poison");
+        comboCardType.addItem("fée");
+        JButton add = new JButton("Ajouter");
+
 
         window.setLayout(new FlowLayout ());
         window.add(exit);
         window.add(label);
         window.add(combo);
-        window.add(ok);
+        window.add(remove);
+        window.add(labelAdd);
+        window.add(textField);
+        window.add(comboCardType);
+        window.add(add);
+
         window.setVisible(true);
 
         exit.addActionListener(new Close());
 
-        ok.addActionListener(new ActionListener() {
+        remove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
                 for(int i = 0; i < cardList.size(); i++) {
@@ -65,14 +82,23 @@ public class Main {
                         window.add( new JLabel (name+" a été supprimé"));
                     }
                 }
-                for(int i = 0; i < cardList.size(); i++) { // Verify removal from the array
-                    System.out.println(cardList.get(i));
+                for(int i = 0; i < cardList.size(); i++) { // Verify removal and add
+                    System.out.println(cardList.get(i).getName());
                 }
             }
-        });
+        }); // fin remove
 
+        add.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
 
+                String getName = textField.getText();
+
+                String getCardType = (String) comboCardType.getSelectedItem();
+                cardList.add(new Card(getName,getCardType));
+                combo.addItem(getName);
+
+            }
+        }); // fin add
     }
-
-
 }
