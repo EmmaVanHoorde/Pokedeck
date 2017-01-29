@@ -4,50 +4,72 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 
-import static java.lang.System.exit;
-import static javax.swing.JFrame.*;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+
 
 public class Main {
 
 	public static void main(String[] args) {
 
+        List<Card> cardList;
+        cardList = new ArrayList<Card>();
+        cardList.add(new Card("Salamèche","feu"));
+        cardList.add(new Card("Goupix","feu"));
+        cardList.add(new Card("Pikachu","électrique"));
 
-        JFrame window = new JFrame("Pokedeck");
+        JFrame window = new JFrame("Pokedeck - Remove card");
         window.setSize (800, 500);
-        window.setDefaultCloseOperation(EXIT_ON_CLOSE );
         window.setLocationRelativeTo(null);
         window.getContentPane().setBackground(Color.lightGray);
+
+        JComboBox combo = new JComboBox();
+        JLabel label = new JLabel("Choisir un Pokemon");
+        combo.setPreferredSize(new Dimension(100, 20));
+
+        for(int i = 0; i < cardList.size(); i++) {
+            combo.addItem(cardList.get(i).getName());
+        }
+
         JPanel  pannel = new JPanel(new FlowLayout ());
-        JButton addCard = new JButton("Ajouter carte");
-        pannel.add(addCard);
-        JButton removeCard = new JButton("Supprimer carte");
-        pannel.add(removeCard);
         JButton exit = new JButton("Quitter");
+        JButton ok = new JButton("Supprimer");
         pannel.add(exit);
+        pannel.add(label);
+        pannel.add(combo);
+        pannel.add(ok);
 
         window.setLayout(new FlowLayout ());
-        window.add(addCard);
-        window.add(removeCard);
         window.add(exit);
+        window.add(label);
+        window.add(combo);
+        window.add(ok);
         window.setVisible(true);
-        // Actions click
-        addCard.addActionListener(new AddCard());
-        removeCard.addActionListener(new DeleteCard());
+
         exit.addActionListener(new Close());
-        
-        // Cards
-        Card C1 = new Card("Charmander","fire");
-        Card C2 = new Card("Vulpix","fire");
 
-
-        // Show
-        System.out.println("Exemples:");
-        System.out.println("Name: "+C1.getName());
-        System.out.println("Pokemon Type: "+C1.getPokemonType());
-        System.out.println("Name: "+C2.getName());
-        System.out.println("Pokemon Type: "+C2.getPokemonType());
-
-
+        ok.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                for(int i = 0; i < cardList.size(); i++) {
+                    String name = (String) combo.getSelectedItem();
+                    if (combo.getSelectedItem() == cardList.get(i).getName()){
+                        cardList.remove(cardList.get(i)); // Remove from the array
+                        combo.removeItem(combo.getSelectedItem()); // Remove from the ComboBox
+                        window.add( new JLabel (name+" a été supprimé"));
+                    }
+                }
+                for(int i = 0; i < cardList.size(); i++) { // Verify removal from the array
+                    System.out.println(cardList.get(i));
+                }
+            }
+        });
 
 
     }
