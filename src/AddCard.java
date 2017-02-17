@@ -17,7 +17,7 @@ public class AddCard {
         window.setLocationRelativeTo(null);
 
         JComboBox combo = new JComboBox();
-        JLabel label = new JLabel("Choisir un Pokemon:");
+        //JLabel label = new JLabel("Choisir un Pokemon:");
         combo.setPreferredSize(new Dimension(100, 20));
 
         JButton exit = new JButton("Quitter");
@@ -61,7 +61,6 @@ public class AddCard {
                 JOptionPane pop1, pop2, popError;
                 String t = getName;
                 int test2 = 0;
-
                 for (int a = 0; a < t.length(); a++) {
                     char c = t.charAt(a);
                     if (Character.isLetter(c)){

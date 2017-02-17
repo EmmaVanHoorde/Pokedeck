@@ -27,13 +27,15 @@ public class Main {
         window.setLocationRelativeTo(null);
         window.getContentPane().setBackground(Color.lightGray);
 
-        JButton buttonAdd = new JButton("Ajouter un pokemon");
-        JButton buttonRemove = new JButton("Supprimer un pokemon");
+        JButton buttonAdd = new JButton("Ajouter une carte");
+        JButton buttonRemove = new JButton("Supprimer une carte");
+        JButton buttonUpdate = new JButton("Mettre à jour une carte");
         JButton exit = new JButton("Quitter");
 
         window.setLayout(new FlowLayout ());
         window.add(exit);
         window.add(buttonAdd);
+        window.add(buttonUpdate);
         window.add(buttonRemove);
         window.setVisible(true);
 
@@ -56,6 +58,17 @@ public class Main {
             }
 
         }); // end buttonRemove
+
+        buttonUpdate.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent event) {
+
+                UpdateCard update = new UpdateCard(cardList);
+
+            }
+
+        });
+
 
     }
 }
