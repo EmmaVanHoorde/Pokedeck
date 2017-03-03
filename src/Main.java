@@ -8,21 +8,33 @@ import javax.swing.JLabel;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
 public class Main {
 
-    public static void main(String[] args) {
+    static List<Card> cardList;
 
-        List<Card> cardList;
+    public static void main(String[] args) throws IOException {
+
         cardList = new ArrayList<Card>();
-        cardList.add(new Card("Salamèche","feu", "base", "50", "aucun"));
-        cardList.add(new Card("Reptincel","feu", "niveau1", "90", "Salamèche"));
-        cardList.add(new Card("Pikachu","électrique", "base", "60", "aucun"));
-        cardList.add(new Card("Goupix","feu", "base", "60", "aucun"));
+//        cardList.add(new Card("Salamèche","feu", "base", "50", "aucun"));
+//        cardList.add(new Card("Reptincel","feu", "niveau1", "90", "Salamèche"));
+//        cardList.add(new Card("Pikachu","électrique", "base", "60", "aucun"));
+//        cardList.add(new Card("Goupix","feu", "base", "60", "aucun"));
 
+
+
+        FileInputStream in = new FileInputStream("tmp.data");
+        ObjectInputStream s = new ObjectInputStream(in);
+
+        try {
+            cardList = (List<Card>) s.readObject();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         JFrame window = new JFrame("Pokedeck");
         window.setSize (800, 500);
@@ -45,39 +57,43 @@ public class Main {
 
         exit.addActionListener(new Close());
 
+        List<Card> finalCardList1 = cardList;
         buttonAdd.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event) {
 
-                AddCard add = new AddCard(cardList);
+                AddCard add = new AddCard(finalCardList1);
             }
 
         }); // end buttonAdd
 
+        List<Card> finalCardList = cardList;
         buttonRemove.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event) {
 
-                DeleteCard remove = new DeleteCard(cardList);
+                DeleteCard remove = new DeleteCard(finalCardList);
             }
 
         }); // end buttonRemove
 
+        List<Card> finalCardList2 = cardList;
         buttonUpdate.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event) {
 
-                UpdateCard update = new UpdateCard(cardList);
+                UpdateCard update = new UpdateCard(finalCardList2);
 
             }
 
         });
 
+        List<Card> finalCardList3 = cardList;
         buttonConsultCollection.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event) {
 
-                ConsultCollection consult = new ConsultCollection(cardList);
+                ConsultCollection consult = new ConsultCollection(finalCardList3);
             }
         });
     }
