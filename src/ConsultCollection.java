@@ -13,7 +13,7 @@ public class ConsultCollection {
         cardList = cardListP;
 
         JFrame window = new JFrame("Pokedeck");
-        window.setSize (800, 500);
+        window.setSize (800, 200);
         window.setLocationRelativeTo(null);
 
         JComboBox combo = new JComboBox();

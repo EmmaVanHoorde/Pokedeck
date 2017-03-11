@@ -13,7 +13,7 @@ public class AddCard {
         cardList = cardListP;
 
         JFrame window = new JFrame("Pokedeck");
-        window.setSize (800, 500);
+        window.setSize (750, 200);
         window.setLocationRelativeTo(null);
 
         JComboBox combo = new JComboBox();
@@ -63,9 +63,8 @@ public class AddCard {
         JButton add = new JButton("Ajouter");
 
         window.setLayout(new FlowLayout ());
-        window.add(exit);
         window.add(labelAdd);
-        window.add(labelName);
+        //window.add(labelName);
         window.add(textField);
         window.add(comboCardType);
         window.add(comboStage);
@@ -74,6 +73,7 @@ public class AddCard {
         window.add(labelEvolution);
         window.add(comboEvolution);
         window.add(add);
+        window.add(exit);
         window.setVisible(true);
 
         exit.addActionListener(new Close());

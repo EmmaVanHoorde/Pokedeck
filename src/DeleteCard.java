@@ -19,7 +19,7 @@ public class DeleteCard {
         cardList = cardListP;
 
         JFrame window = new JFrame("Pokedeck");
-        window.setSize (800, 500);
+        window.setSize (500, 200);
         window.setLocationRelativeTo(null);
 
         JComboBox combo = new JComboBox();
@@ -34,10 +34,10 @@ public class DeleteCard {
         JButton remove = new JButton("Supprimer");
 
         window.setLayout(new FlowLayout ());
-        window.add(exit);
         window.add(label);
         window.add(combo);
         window.add(remove);
+        window.add(exit);
 
         window.setVisible(true);
 
@@ -69,10 +69,6 @@ public class DeleteCard {
                                 popRemove = new JOptionPane();
                                 popRemove.showMessageDialog(null, name+" a été supprimé", "Information", JOptionPane.INFORMATION_MESSAGE);
                             }
-                        }
-                        // Verify removal and add
-                        for(int i = 0; i < cardList.size(); i++) {
-                            System.out.println(cardList.get(i).getName());
                         }
                     }
                 }

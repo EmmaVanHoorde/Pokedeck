@@ -13,7 +13,7 @@ public class UpdateCard {
         cardList = cardListP;
 
         JFrame window = new JFrame("Pokedeck");
-        window.setSize (800, 500);
+        window.setSize (650, 250);
         window.setLocationRelativeTo(null);
 
         JComboBox combo = new JComboBox();
@@ -147,7 +147,7 @@ public class UpdateCard {
                             cardList.remove(cardList.get(i));
                             cardList.add(new Card(name,newPokemonType, newStage, newHP, newEvolvesFrom));
                         }
-                        System.out.println(cardList.get(i).getName()+" "+cardList.get(i).getPokemonType()+" "+cardList.get(i).getStage()+" "+cardList.get(i).getEvolvesFrom()); // Verify
+                        //System.out.println(cardList.get(i).getName()+" "+cardList.get(i).getPokemonType()+" "+cardList.get(i).getStage()+" "+cardList.get(i).getEvolvesFrom()); // Verify
                     }
                 }
             }

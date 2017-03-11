@@ -37,7 +37,7 @@ public class Main {
         }
 
         JFrame window = new JFrame("Pokedeck");
-        window.setSize (800, 500);
+        window.setSize (600, 300);
         window.setLocationRelativeTo(null);
         window.getContentPane().setBackground(Color.lightGray);
 
@@ -45,6 +45,7 @@ public class Main {
         JButton buttonRemove = new JButton("Supprimer une carte");
         JButton buttonUpdate = new JButton("Mettre à jour une carte");
         JButton buttonConsultCollection = new JButton("Voir sa collection");
+        JButton buttonSearch = new JButton("Rechercher une carte");
         JButton exit = new JButton("Quitter");
 
         window.setLayout(new FlowLayout ());
@@ -53,6 +54,7 @@ public class Main {
         window.add(buttonUpdate);
         window.add(buttonConsultCollection);
         window.add(buttonRemove);
+        window.add(buttonSearch);
         window.setVisible(true);
 
         exit.addActionListener(new Close());
@@ -65,7 +67,7 @@ public class Main {
                 AddCard add = new AddCard(finalCardList1);
             }
 
-        }); // end buttonAdd
+        });
 
         List<Card> finalCardList = cardList;
         buttonRemove.addActionListener(new ActionListener(){
@@ -75,7 +77,7 @@ public class Main {
                 DeleteCard remove = new DeleteCard(finalCardList);
             }
 
-        }); // end buttonRemove
+        });
 
         List<Card> finalCardList2 = cardList;
         buttonUpdate.addActionListener(new ActionListener(){
@@ -83,7 +85,6 @@ public class Main {
             public void actionPerformed(ActionEvent event) {
 
                 UpdateCard update = new UpdateCard(finalCardList2);
-
             }
 
         });
@@ -94,6 +95,15 @@ public class Main {
             public void actionPerformed(ActionEvent event) {
 
                 ConsultCollection consult = new ConsultCollection(finalCardList3);
+            }
+        });
+
+        List<Card> finalCardList4 = cardList;
+        buttonSearch.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent event) {
+
+                SearchCard search = new SearchCard(finalCardList4);
             }
         });
     }
