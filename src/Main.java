@@ -20,11 +20,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         cardList = new ArrayList<Card>();
-//        cardList.add(new Card("Salamèche","feu", "base", "50", "aucun"));
-//        cardList.add(new Card("Reptincel","feu", "niveau1", "90", "Salamèche"));
-//        cardList.add(new Card("Pikachu","électrique", "base", "60", "aucun"));
-//        cardList.add(new Card("Goupix","feu", "base", "60", "aucun"));
-
+        Event events = new Event(cardList);
 
 
         FileInputStream in = new FileInputStream("tmp.data");
@@ -59,51 +55,56 @@ public class Main {
 
         exit.addActionListener(new Close());
 
-        List<Card> finalCardList1 = cardList;
+        //List<Card> finalCardList1 = cardList;
         buttonAdd.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event) {
 
-                AddCard add = new AddCard(finalCardList1);
+                //AddCard add = new AddCard(finalCardList1);
+                events.addCard();
             }
 
         });
 
-        List<Card> finalCardList = cardList;
+        //List<Card> finalCardList = cardList;
         buttonRemove.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event) {
 
-                DeleteCard remove = new DeleteCard(finalCardList);
+                //DeleteCard remove = new DeleteCard(finalCardList);
+                events.removeCard();
             }
 
         });
 
-        List<Card> finalCardList2 = cardList;
+        //List<Card> finalCardList2 = cardList;
         buttonUpdate.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event) {
 
-                UpdateCard update = new UpdateCard(finalCardList2);
+                //UpdateCard update = new UpdateCard(finalCardList2);
+                events.updateCard();
             }
 
         });
 
-        List<Card> finalCardList3 = cardList;
+        //List<Card> finalCardList3 = cardList;
         buttonConsultCollection.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event) {
 
-                ConsultCollection consult = new ConsultCollection(finalCardList3);
+                //ConsultCollection consult = new ConsultCollection(finalCardList3);
+                events.consultCollection();
             }
         });
 
-        List<Card> finalCardList4 = cardList;
+        //List<Card> finalCardList4 = cardList;
         buttonSearch.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event) {
 
-                SearchCard search = new SearchCard(finalCardList4);
+                //SearchCard search = new SearchCard(finalCardList4);
+                events.searchCard();
             }
         });
     }
