@@ -1,11 +1,9 @@
+import com.sun.deploy.panel.ExceptionListDialog;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,19 +14,15 @@ public class Event {
     public Event(List<Card> cardListP){
 
         cardList = cardListP;
-        cardList = new ArrayList<Card>();
-
-
-    } // end Events
+    }
 
     public void addCard() {
 
         JFrame window = new JFrame("Pokedeck");
         window.setSize (750, 200);
         window.setLocationRelativeTo(null);
-        JButton exit = new JButton("Quitter");
+        JButton exit = new JButton("Accueil");
         JLabel labelAdd = new JLabel("<html><body><u>Ajouter un Pokemon:</u></body></html>");
-        JLabel labelName = new JLabel("Nom:");
         JTextField textField = new JTextField();
         textField.setText("Nom");
         textField.setPreferredSize(new Dimension(100, 20));
@@ -69,7 +63,6 @@ public class Event {
         JButton add = new JButton("Ajouter");
         window.setLayout(new FlowLayout ());
         window.add(labelAdd);
-        //window.add(labelName);
         window.add(textField);
         window.add(comboCardType);
         window.add(comboStage);
@@ -80,7 +73,12 @@ public class Event {
         window.add(add);
         window.add(exit);
         window.setVisible(true);
-        exit.addActionListener(new Close());
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                window.dispose();
+            }
+        });
 
         add.addActionListener(new ActionListener(){
             @Override
@@ -88,41 +86,50 @@ public class Event {
                 String getCardType = (String) comboCardType.getSelectedItem();
                 String getStage = (String) comboStage.getSelectedItem();
                 String getEvolvesFrom = (String) comboEvolution.getSelectedItem();
-                int test1 = 1;
+                boolean testExist = true;
                 String getName = textField.getText();
                 String getHP = textFieldHP.getText();
                 JOptionPane pop1, pop2, popError;
                 String t = getName;
                 String hp = getHP;
-                int test2 = 0;
-                int testHP = 0;
+                boolean testName = false;
+                boolean testHP = false;
+                boolean testHPdigit = true;
+
                 for (int a = 0; a < t.length(); a++) {
                     char c = t.charAt(a);
                     if (Character.isLetter(c)) {
-                        test2 = 1;
+                        testName = true;
                     }
                 }
                 for (int b = 0; b < hp.length(); b++) {
                     char ca = hp.charAt(b);
                     if (Character.isDigit(ca)){
-                        testHP = 1;
+                        testHP = true;
+                    }
+                    if (Character.isLetter(ca)){
+                        testHPdigit = false;
                     }
                 }
-                if (test2 != 1){
+                if (testName == false){
                     popError = new JOptionPane();
                     popError.showMessageDialog(null, "Veuillez rentrer au moins une lettre pour le nom de ce pokemon", "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
-                else if (testHP !=1) {
+                else if (testHP == false) {
                     popError = new JOptionPane();
                     popError.showMessageDialog(null, "Veuillez rentrer au moins un chiffre pour les points de vie de ce pokemon", "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
+                else if (testHPdigit == false) {
+                    popError = new JOptionPane();
+                    popError.showMessageDialog(null, "Veuillez ne rentrer que des chiffres pour les points de vie de ce pokemon", "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
                 else{
                     for (int i = 0; i < cardList.size(); i++) {
                         if (getName.equals(cardList.get(i).getName())) {
-                            test1++;
+                            testExist = false;
                         }
                     }
-                    if (test1 == 1){
+                    if (testExist == true){
                         cardList.add(new Card(getName, getCardType, getStage, getHP, getEvolvesFrom));
                         comboEvolution.addItem(getName);
                         pop1 = new JOptionPane();
@@ -150,7 +157,7 @@ public class Event {
             combo.addItem(cardList.get(i).getName());
         }
 
-        JButton exit = new JButton("Quitter");
+        JButton exit = new JButton("Accueil");
         JButton remove = new JButton("Supprimer");
 
         window.setLayout(new FlowLayout ());
@@ -158,15 +165,17 @@ public class Event {
         window.add(combo);
         window.add(remove);
         window.add(exit);
-
         window.setVisible(true);
-
-        exit.addActionListener(new Close());
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                window.dispose();
+            }
+        });
 
         remove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-
 
                 String name = (String) combo.getSelectedItem();
 
@@ -181,7 +190,6 @@ public class Event {
 
                     if(option == JOptionPane.YES_OPTION) {
                         for(int i = 0; i < cardList.size(); i++) {
-
                             if (name == cardList.get(i).getName()){
                                 cardList.remove(cardList.get(i)); // Remove from the array
                                 combo.removeItem(combo.getSelectedItem()); // Remove from the ComboBox
@@ -194,45 +202,28 @@ public class Event {
                 }
             }
         }); // end remove
-
     } // endTestRemove
 
     public void searchCard(){
         JFrame window = new JFrame("Pokedeck");
         window.setSize (580, 300);
         window.setLocationRelativeTo(null);
-
         JComboBox comboStage = new JComboBox();
         comboStage.setPreferredSize(new Dimension(120, 20));
         comboStage.addItem("sélectionner");
         comboStage.addItem("base");
         comboStage.addItem("niveau1");
         comboStage.addItem("niveau2");
-
         window.setLayout(new FlowLayout ());
-        window.add ( new JLabel (" Chercher par niveau: "));
+        window.add ( new JLabel ("<html><body><u>Chercher par niveau:</u></body></html>"));
         window.add(comboStage);
         window.setVisible(true);
         JLabel label = new JLabel("--- ");
         window.add ( new JLabel (" pokemon(s) correspondant(s): "));
         window.add(label);
-
         JComboBox comboCardType = new JComboBox();
         comboCardType.setPreferredSize(new Dimension(100, 20));
         comboCardType.addItem("sélectionner");
-//        comboCardType.addItem("feu");
-//        comboCardType.addItem("eau");
-//        comboCardType.addItem("électrique");
-//        comboCardType.addItem("plante");
-//        comboCardType.addItem("sol");
-//        comboCardType.addItem("vol");
-//        comboCardType.addItem("insecte");
-//        comboCardType.addItem("poison");
-//        comboCardType.addItem("fée");
-//        comboCardType.addItem("normal");
-//        comboCardType.addItem("autre");
-
-
         List testList;
         testList = new ArrayList();
 
@@ -241,7 +232,6 @@ public class Event {
             String item;
             int testItem = 0;
             item = cardList.get(i).getPokemonType();
-
 
             for(int a = 0; a < testList.size(); a++){
 
@@ -255,7 +245,7 @@ public class Event {
             }
         }
 
-        window.add ( new JLabel ("<html><body><u>Chercher par type:</u></body></html>"));
+        window.add ( new JLabel ("<html><body><u> Chercher par type: </u></body></html>"));
         window.add(comboCardType);
         JLabel labelType = new JLabel("---");
         window.add ( new JLabel (" pokemon(s) correspondant(s): "));
@@ -265,17 +255,17 @@ public class Event {
             public void actionPerformed(ActionEvent e) {
                 String stage = (String) comboStage.getSelectedItem();
                 String result = "";
-                int test = 0;
+                boolean test = false;
                 for (int i = 0; i < cardList.size(); i++) {
                     if (stage.equals(cardList.get(i).getStage())) {
-                        if (test == 0){
-                            test++;
+                        if (test == false){
+                            test = true;
                         }
                         String name = cardList.get(i).getName();
                         result = result + " "+name;
                     }
                 }
-                if(test == 0){
+                if(test == false){
                     result = "aucun";
                 }
                 label.setText(result);
@@ -283,35 +273,38 @@ public class Event {
         });
 
         comboCardType.addActionListener (new ActionListener() {
-
             public void actionPerformed(ActionEvent e) {
-
                 String type = (String) comboCardType.getSelectedItem();
                 String result = "";
-                int test = 0;
+                boolean test = false;
                 for (int i = 0; i < cardList.size(); i++) {
                     if (type.equals(cardList.get(i).getPokemonType())) {
-                        if (test == 0){
-                            test++;
+                        if (test == false){
+                            test = true;
                         }
                         String name = cardList.get(i).getName();
                         result = result + " "+name;
                     }
                 }
-                if(test == 0){
+                if(test == false){
                     result = "-";
                 }
                 labelType.setText(result);
             }
         });
-
+        JButton exit = new JButton("Accueil");
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                window.dispose();
+            }
+        });
     } // end searchCard
 
     public void updateCard(){
         JFrame window = new JFrame("Pokedeck");
         window.setSize (650, 250);
         window.setLocationRelativeTo(null);
-
         JComboBox combo = new JComboBox();
         JLabel label = new JLabel("Choisir un Pokemon:");
         combo.setPreferredSize(new Dimension(100, 20));
@@ -329,18 +322,15 @@ public class Event {
         comboCardType.addItem("fée");
         comboCardType.addItem("normal");
         comboCardType.addItem("autre");
-
         JLabel labelStage = new JLabel("Stade:");
         JComboBox comboStage = new JComboBox();
         comboStage.setPreferredSize(new Dimension(100, 20));
         comboStage.addItem("base");
         comboStage.addItem("niveau1");
         comboStage.addItem("niveau2");
-
         JLabel labelHP = new JLabel("HP:");
         JTextField textFieldHP = new JTextField();
         textFieldHP.setPreferredSize(new Dimension(40, 20));
-
         JLabel labelEvolution = new JLabel("Evolué de :");
         JComboBox comboEvolution = new JComboBox();
         comboEvolution.setPreferredSize(new Dimension(130, 20));
@@ -395,10 +385,15 @@ public class Event {
             }
         });
 
-        JButton exit = new JButton("Quitter");
+        JButton exit = new JButton("Accueil");
         JButton update = new JButton("Mettre à jour");
 
-        exit.addActionListener(new Close());
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                window.dispose();
+            }
+        });
 
         window.setLayout(new FlowLayout ());
         window.add(label);
@@ -413,33 +408,38 @@ public class Event {
         window.add(comboEvolution);
         window.add(update);
         window.add(exit);
-
         window.setVisible(true);
 
         update.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event) {
-
                 String name = (String) combo.getSelectedItem();
                 String newPokemonType = (String) comboCardType.getSelectedItem();
                 String newStage = (String) comboStage.getSelectedItem();
                 String newHP = (String) textFieldHP.getText();
                 String newEvolvesFrom = (String) comboEvolution.getSelectedItem();
-
                 JOptionPane popError;
                 String getHP = (String) textFieldHP.getText();
                 String hp = getHP;
-                int testHP = 0;
+                boolean testHP = false;
+                boolean testHPdigit = true;
                 for (int b = 0; b < hp.length(); b++) {
                     char ca = hp.charAt(b);
                     if (Character.isDigit(ca)){
-                        testHP = 1;
+                        testHP = true;
+                    }
+                    if (Character.isLetter(ca)){
+                        testHPdigit = false;
                     }
                 }
-                if (testHP !=1) {
+                if (testHP == false) {
                     popError = new JOptionPane();
                     popError.showMessageDialog(null, "Veuillez rentrer au moins un chiffre pour les points de vie de ce pokemon", "Erreur", JOptionPane.ERROR_MESSAGE);
 
+                }
+                else if (testHPdigit == false) {
+                    popError = new JOptionPane();
+                    popError.showMessageDialog(null, "Veuillez ne rentrer que des chiffres pour les points de vie de ce pokemon", "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
                 else {
                     for (int i = 0; i < cardList.size(); i++) {
@@ -448,7 +448,6 @@ public class Event {
                             cardList.remove(cardList.get(i));
                             cardList.add(new Card(name,newPokemonType, newStage, newHP, newEvolvesFrom));
                         }
-                        //System.out.println(cardList.get(i).getName()+" "+cardList.get(i).getPokemonType()+" "+cardList.get(i).getStage()+" "+cardList.get(i).getEvolvesFrom()); // Verify
                     }
                 }
             }
@@ -462,9 +461,8 @@ public class Event {
         window.setLocationRelativeTo(null);
 
         JComboBox combo = new JComboBox();
-        JLabel label = new JLabel("Choisir le Pokemon à visualiser:");
+        JLabel label = new JLabel("<html><body><u>Choisir le Pokemon à visualiser:</u></body></html>");
         combo.setPreferredSize(new Dimension(100, 20));
-
         JLabel labelType = new JLabel("Type:");
         JLabel labelStage = new JLabel("Stade:");
         JLabel labelHP = new JLabel("PV:");
@@ -473,7 +471,6 @@ public class Event {
         JLabel labelStage2 = new JLabel("");
         JLabel labelHP2 = new JLabel("");
         JLabel labelEvolution2 = new JLabel("");
-
 
         for(int i = 0; i < cardList.size(); i++) {
             combo.addItem(cardList.get(i).getName());
@@ -491,15 +488,12 @@ public class Event {
                 labelHP2.setText(HP);
                 String evolution = cardList.get(i).getEvolvesFrom();
                 labelEvolution2.setText(evolution);
-
             }
         }
 
         combo.addActionListener (new ActionListener () {
             public void actionPerformed(ActionEvent e) {
-
                 String name = (String) combo.getSelectedItem();
-
                 for (int i = 0; i < cardList.size(); i++) {
                     if (name.equals(cardList.get(i).getName())) {
                         String type = cardList.get(i).getPokemonType();
@@ -515,9 +509,14 @@ public class Event {
             }
         });
 
-        JButton exit = new JButton("Quitter");
+        JButton exit = new JButton("Accueil");
 
-        exit.addActionListener(new Close());
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                window.dispose();
+            }
+        });
 
         window.setLayout(new FlowLayout ());
         window.add(label);
@@ -531,7 +530,6 @@ public class Event {
         window.add(labelEvolution);
         window.add(labelEvolution2);
         window.add(exit);
-
         window.setVisible(true);
     } // end ConsultCollection
 

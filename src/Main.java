@@ -20,22 +20,21 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         cardList = new ArrayList<Card>();
-        Event events = new Event(cardList);
-
-
-        FileInputStream in = new FileInputStream("tmp.data");
-        ObjectInputStream s = new ObjectInputStream(in);
-
         try {
+            FileInputStream in = new FileInputStream("tmp.data");
+            ObjectInputStream s = new ObjectInputStream(in);
             cardList = (List<Card>) s.readObject();
-        } catch (ClassNotFoundException e) {
+            s.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+        Event events = new Event(cardList);
 
         JFrame window = new JFrame("Pokedeck");
         window.setSize (600, 300);
         window.setLocationRelativeTo(null);
-        window.getContentPane().setBackground(Color.lightGray);
+        //window.getContentPane().setBackground(Color.lightGray);
 
         JButton buttonAdd = new JButton("Ajouter une carte");
         JButton buttonRemove = new JButton("Supprimer une carte");
@@ -52,58 +51,39 @@ public class Main {
         window.add(buttonRemove);
         window.add(buttonSearch);
         window.setVisible(true);
-
         exit.addActionListener(new Close());
 
-        //List<Card> finalCardList1 = cardList;
         buttonAdd.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event) {
-
-                //AddCard add = new AddCard(finalCardList1);
                 events.addCard();
             }
-
         });
 
-        //List<Card> finalCardList = cardList;
         buttonRemove.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event) {
-
-                //DeleteCard remove = new DeleteCard(finalCardList);
                 events.removeCard();
             }
-
         });
 
-        //List<Card> finalCardList2 = cardList;
         buttonUpdate.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event) {
-
-                //UpdateCard update = new UpdateCard(finalCardList2);
                 events.updateCard();
             }
-
         });
 
-        //List<Card> finalCardList3 = cardList;
         buttonConsultCollection.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event) {
-
-                //ConsultCollection consult = new ConsultCollection(finalCardList3);
                 events.consultCollection();
             }
         });
 
-        //List<Card> finalCardList4 = cardList;
         buttonSearch.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent event) {
-
-                //SearchCard search = new SearchCard(finalCardList4);
                 events.searchCard();
             }
         });
