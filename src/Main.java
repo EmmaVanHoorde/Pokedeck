@@ -34,7 +34,6 @@ public class Main {
         JFrame window = new JFrame("Pokedeck");
         window.setSize (600, 300);
         window.setLocationRelativeTo(null);
-        //window.getContentPane().setBackground(Color.lightGray);
 
         JButton buttonAdd = new JButton("Ajouter une carte");
         JButton buttonRemove = new JButton("Supprimer une carte");
