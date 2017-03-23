@@ -8,7 +8,7 @@ Toutes les modifications sont automatiquement sauvegardées dans le fichier tmp.
 
 <h3>Classes :</h3>
 <p>Main : Permet de lancer le programme, de lire les éléments sauvegardés et d’ouvrir une fenêtre.</p>
-<p>Card : Permet de créer des objets cartes constitué d’un nom, d’un type, d’un stade (niveau), d’une valeur de points de vie 
+<p>Card : Permet de créer des objets cartes constituées d’un nom, d’un type, d’un stade (niveau), d’une valeur de points de vie 
 et d’une évolution. </p>
 <p>Event : Contient les fonctions permettant d’ajouter une carte Pokémon, de la supprimer, de la mettre à jour, 
 de consulter sa collection de cartes et de rechercher une carte par critères.</p>
